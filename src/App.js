@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { create } from "ipfs-http-client";
 import "./App.css";
 // import { Route, Switch, Redirect } from "react-router-dom";
 // import { auth } from "./services/firebase";
@@ -9,9 +8,24 @@ import logo from "./logo.svg";
 // Global Store
 // import Store from "./context/store";
 
-const client = create('https://ipfs.infura.io:5001/api/v0');
+const ipfsClient = require('ipfs-http-client');
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
+
+const projectId = '26U66BQ9I93byWz4KA1ngIJpcNF';
+const projectSecret = '3eb95c238bf345e1c4dc0598eed24171';
+
+const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+
+const client = ipfsClient.create({
+    host: 'ipfs.infura.io',
+    port: 5001,
+    protocol: 'https',
+    headers: {
+        authorization: auth,
+    },
+});
 
 function App() {
 
